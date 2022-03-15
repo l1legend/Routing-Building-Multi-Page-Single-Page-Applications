@@ -16,6 +16,7 @@ const router = createRouter({
     {
       name: 'teams',
       path: '/teams',
+      meta: { needsAuth: true },
       components: { default: TeamsList, footer: TeamsFooter },
       children: [
         {
@@ -36,34 +37,41 @@ const router = createRouter({
         console.log('users beforeEnter');
         console.log(to, from);
         next();
-      }
+      },
     },
     { path: '/:notFound(.*)', component: NotFound }
   ],
   linkActiveClass: 'active',
   scrollBehavior(_, _2, savedPosition) {
-    // console.log(to, from, savedPosition);
-    if (savedPosition) {
+    //console.log(to, from, savedPosition);
+    if ( savedPosition) {
       return savedPosition;
     }
-    return { left: 0, top: 0 };
+    return { left: 0, top: 0 }
   }
 });
 
-router.beforeEach(function(to, from, next) {
+router.beforeEach( function(to, from, next) {
   console.log('Global beforeEach');
   console.log(to, from);
+  if (to.meta.needsAuth) {
+    console.log('Needs auth!');
+    next();
+  }
+  else {
+    next();
+  }
   // if (to.name === 'team-members') {
   //   next();
-  // } else {
-  //   next({ name: 'team-members', params: { teamId: 't2' } });
+  // }else {
+  //   next({ name: 'team-members', params: { teamId: 't2' }});
   // }
   next();
 });
 
 router.afterEach(function(to, from) {
-  // sending analytics data
-  console.log('Global afterEach');
+  //sending analytics data
+  console.log('global afterEach');
   console.log(to, from);
 });
 
@@ -72,3 +80,4 @@ const app = createApp(App);
 app.use(router);
 
 app.mount('#app');
+
