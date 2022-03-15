@@ -46,10 +46,10 @@ export default {
     this.loadTeamMembers(this.teamId);
     console.log(this.$route.query);
   },
-  beforeRouterUpdate(to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     console.log('TeamMembers Cmp beforeRouteUpdate');
     console.log(to, from);
-    //this.loadTeamMembers(to.params.teamId);
+    // this.loadTeamMembers(to.params.teamId);
     next();
   },
   watch: {
