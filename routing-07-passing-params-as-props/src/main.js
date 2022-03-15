@@ -13,18 +13,26 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', redirect: '/teams' },
-    { 
+    {
       name: 'teams',
-      path: '/teams', component: TeamsList,
-      components: { default: TeamsList, footer: TeamsFooter }, 
+      path: '/teams',
+      components: { default: TeamsList, footer: TeamsFooter },
       children: [
-        { name: 'team-members', path: ':teamId', component: TeamMembers, props: true } // /teams/t1
-      ] 
+        {
+          name: 'team-members',
+          path: ':teamId',
+          component: TeamMembers,
+          props: true
+        } // /teams/t1
+      ]
     }, // our-domain.com/teams => TeamsList
-    { path: '/users', component: {
-      default: UsersList, footer: UsersFooter
-    }
-  },  
+    {
+      path: '/users',
+      components: {
+        default: UsersList,
+        footer: UsersFooter
+      }
+    },
     { path: '/:notFound(.*)', component: NotFound }
   ],
   linkActiveClass: 'active'
@@ -35,3 +43,4 @@ const app = createApp(App);
 app.use(router);
 
 app.mount('#app');
+
